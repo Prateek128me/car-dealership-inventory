@@ -1,6 +1,7 @@
-from pydantic import BaseModel, ConfigDict, Field, field_validator
 from decimal import Decimal
 from typing import Annotated
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 Price = Annotated[Decimal, Field(ge=0, le=999999999, decimal_places=2, allow_inf_nan=False)]
 Stock = Annotated[int, Field(strict=True, ge=0, le=1000000)]

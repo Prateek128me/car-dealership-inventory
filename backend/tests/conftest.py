@@ -1,6 +1,8 @@
-import pytest
 import sqlite3
+
+import pytest
 from fastapi.testclient import TestClient
+
 from app.main import create_app
 
 SECRET = "test-only-secret-with-at-least-32-bytes"
@@ -39,4 +41,10 @@ def admin_headers(client, db_path):
 
 @pytest.fixture
 def vehicle():
-    return {"make": "Toyota", "model": "Camry", "category": "Sedan", "price": "3500000.50", "quantity": 2}
+    return {
+        "make": "Toyota",
+        "model": "Camry",
+        "category": "Sedan",
+        "price": "3500000.50",
+        "quantity": 2,
+    }

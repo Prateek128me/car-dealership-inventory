@@ -11,3 +11,4 @@ dist/
 *.db-wal
 playwright-report/
 test-results/
+frontend/coverage/

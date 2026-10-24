@@ -1,5 +1,6 @@
 import sqlite3
 from datetime import datetime, timedelta, timezone
+
 import jwt
 import pytest
 from conftest import SECRET
@@ -29,12 +30,17 @@ def test_login_and_profile(client, account):
     client.post("/api/auth/register", json=account)
     response = client.post("/api/auth/login", json=account)
     assert response.status_code == 200
-    profile = client.get("/api/auth/me", headers={"Authorization": "Bearer " + response.json()["access_token"]})
+    profile = client.get(
+        "/api/auth/me", headers={"Authorization": "Bearer " + response.json()["access_token"]}
+    )
     assert profile.status_code == 200
     assert profile.json()["email"] == account["email"]
 
 
-@pytest.mark.parametrize("email,password", [("missing@example.com", "SafePassword123!"), ("buyer@example.com", "wrong-password")])
+@pytest.mark.parametrize(
+    "email,password",
+    [("missing@example.com", "SafePassword123!"), ("buyer@example.com", "wrong-password")],
+)
 def test_invalid_credentials(client, account, email, password):
     client.post("/api/auth/register", json=account)
     response = client.post("/api/auth/login", json={"email": email, "password": password})
@@ -47,7 +53,18 @@ def test_registration_validation_and_no_role_escalation(client, account, changes
     assert client.post("/api/auth/register", json=account | changes).status_code == 422
 
 
-@pytest.mark.parametrize("token", [None, "invalid", jwt.encode({"sub": "1", "exp": datetime.now(timezone.utc) - timedelta(minutes=1)}, SECRET, algorithm="HS256")])
+@pytest.mark.parametrize(
+    "token",
+    [
+        None,
+        "invalid",
+        jwt.encode(
+            {"sub": "1", "exp": datetime.now(timezone.utc) - timedelta(minutes=1)},
+            SECRET,
+            algorithm="HS256",
+        ),
+    ],
+)
 def test_profile_requires_valid_unexpired_token(client, token):
     headers = {"Authorization": "Bearer " + token} if token else {}
     assert client.get("/api/auth/me", headers=headers).status_code == 401

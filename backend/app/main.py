@@ -1,19 +1,32 @@
 from fastapi import Depends, FastAPI, HTTPException
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import JSONResponse
-from .errors import DomainError
-from .database import Database
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+
 from .auth import AuthService
-from .schemas import Credentials, TokenOut, UserOut, VehicleCreate, VehicleDetails, VehicleOut, Restock, Price
+from .database import Database
+from .errors import DomainError
+from .schemas import (
+    Credentials,
+    Price,
+    Restock,
+    TokenOut,
+    UserOut,
+    VehicleCreate,
+    VehicleDetails,
+    VehicleOut,
+)
 from .vehicles import VehicleRepository
 
 
 def create_app(db_path: str, secret: str) -> FastAPI:
     app = FastAPI(title="Car Dealership API", version="1.0.0")
+
     @app.exception_handler(DomainError)
     async def domain_error_handler(request, error):
         headers = {"WWW-Authenticate": "Bearer"} if error.status == 401 else None
-        return JSONResponse(status_code=error.status, content={"detail": error.message}, headers=headers)
+        return JSONResponse(
+            status_code=error.status, content={"detail": error.message}, headers=headers
+        )
 
     database = Database(db_path)
     auth = AuthService(database, secret)
@@ -22,7 +35,9 @@ def create_app(db_path: str, secret: str) -> FastAPI:
 
     def current_user(credentials: HTTPAuthorizationCredentials | None = Depends(bearer)):
         if credentials is None:
-            raise HTTPException(401, "Authentication required", headers={"WWW-Authenticate": "Bearer"})
+            raise HTTPException(
+                401, "Authentication required", headers={"WWW-Authenticate": "Bearer"}
+            )
         return auth.authenticate(credentials.credentials)
 
     def admin_user(user=Depends(current_user)):
@@ -51,8 +66,14 @@ def create_app(db_path: str, secret: str) -> FastAPI:
         return vehicles.search()
 
     @app.get("/api/vehicles/search", response_model=list[VehicleOut])
-    def search_vehicles(make: str | None = None, model: str | None = None, category: str | None = None,
-                        min_price: Price | None = None, max_price: Price | None = None, user=Depends(current_user)):
+    def search_vehicles(
+        make: str | None = None,
+        model: str | None = None,
+        category: str | None = None,
+        min_price: Price | None = None,
+        max_price: Price | None = None,
+        user=Depends(current_user),
+    ):
         if min_price is not None and max_price is not None and min_price > max_price:
             raise HTTPException(422, "Minimum price cannot exceed maximum price")
         return vehicles.search(make, model, category, min_price, max_price)

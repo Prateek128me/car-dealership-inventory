@@ -1,7 +1,8 @@
 """File-backed SQLite; a fresh connection per operation, never a global connection."""
+
+import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
-import sqlite3
 
 
 class Database:
@@ -49,5 +50,7 @@ class Database:
 
     def add_user(self, email, password_hash):
         with self.connect() as db:
-            cursor = db.execute("INSERT INTO users(email, password_hash) VALUES (?, ?)", (email, password_hash))
+            cursor = db.execute(
+                "INSERT INTO users(email, password_hash) VALUES (?, ?)", (email, password_hash)
+            )
             return db.execute("SELECT * FROM users WHERE id = ?", (cursor.lastrowid,)).fetchone()

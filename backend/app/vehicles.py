@@ -1,5 +1,7 @@
 """Vehicle persistence and inventory operations with atomic stock updates."""
+
 from decimal import Decimal
+
 from .errors import DomainError
 
 
@@ -7,7 +9,7 @@ def serialize(row):
     if row is None:
         raise DomainError(404, "Vehicle not found")
     result = dict(row)
-    result["price"] = f'{Decimal(result.pop("price_cents")) / 100:.2f}'
+    result["price"] = f"{Decimal(result.pop('price_cents')) / 100:.2f}"
     return result
 
 
@@ -17,10 +19,18 @@ class VehicleRepository:
 
     def create(self, vehicle):
         with self.database.connect() as db:
-            return serialize(db.execute(
-                "INSERT INTO vehicles(make, model, category, price_cents, quantity) VALUES (?, ?, ?, ?, ?) RETURNING *",
-                (vehicle.make, vehicle.model, vehicle.category, int(vehicle.price * 100), vehicle.quantity),
-            ).fetchone())
+            return serialize(
+                db.execute(
+                    "INSERT INTO vehicles(make, model, category, price_cents, quantity) VALUES (?, ?, ?, ?, ?) RETURNING *",
+                    (
+                        vehicle.make,
+                        vehicle.model,
+                        vehicle.category,
+                        int(vehicle.price * 100),
+                        vehicle.quantity,
+                    ),
+                ).fetchone()
+            )
 
     def search(self, make=None, model=None, category=None, min_price=None, max_price=None):
         clauses, values = [], []
@@ -37,15 +47,25 @@ class VehicleRepository:
         if clauses:
             query += " WHERE " + " AND ".join(clauses)
         with self.database.connect() as db:
-            return [serialize(row) for row in db.execute(query + " ORDER BY id DESC", values).fetchall()]
+            return [
+                serialize(row) for row in db.execute(query + " ORDER BY id DESC", values).fetchall()
+            ]
 
     def update(self, vehicle_id, vehicle):
         # Stock is changed only by purchase/restock, never by a stale edit form.
         with self.database.connect() as db:
-            return serialize(db.execute(
-                "UPDATE vehicles SET make=?, model=?, category=?, price_cents=? WHERE id=? RETURNING *",
-                (vehicle.make, vehicle.model, vehicle.category, int(vehicle.price * 100), vehicle_id),
-            ).fetchone())
+            return serialize(
+                db.execute(
+                    "UPDATE vehicles SET make=?, model=?, category=?, price_cents=? WHERE id=? RETURNING *",
+                    (
+                        vehicle.make,
+                        vehicle.model,
+                        vehicle.category,
+                        int(vehicle.price * 100),
+                        vehicle_id,
+                    ),
+                ).fetchone()
+            )
 
     def delete(self, vehicle_id):
         with self.database.connect() as db:
@@ -60,7 +80,10 @@ class VehicleRepository:
                 (delta, vehicle_id, delta),
             ).fetchone()
             if row is None:
-                if db.execute("SELECT id FROM vehicles WHERE id=?", (vehicle_id,)).fetchone() is None:
+                if (
+                    db.execute("SELECT id FROM vehicles WHERE id=?", (vehicle_id,)).fetchone()
+                    is None
+                ):
                     raise DomainError(404, "Vehicle not found")
                 raise DomainError(409, "Out of stock" if delta < 0 else "Stock limit exceeded")
             return serialize(row)

@@ -1,4 +1,5 @@
 """Original sample inventory for a local demonstration, not production data."""
+
 from .schemas import VehicleCreate
 from .vehicles import VehicleRepository
 
@@ -17,5 +18,7 @@ def seed_demo(database):
     if repo.search():
         return False
     for make, model, category, price, quantity in DEMO_VEHICLES:
-        repo.create(VehicleCreate(make=make, model=model, category=category, price=price, quantity=quantity))
+        repo.create(
+            VehicleCreate(make=make, model=model, category=category, price=price, quantity=quantity)
+        )
     return True
