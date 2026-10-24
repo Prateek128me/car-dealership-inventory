@@ -19,6 +19,14 @@ class Database:
                     password_hash TEXT NOT NULL,
                     role TEXT NOT NULL DEFAULT 'user' CHECK(role IN ('user', 'admin'))
                 );
+                CREATE TABLE IF NOT EXISTS vehicles (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    make TEXT NOT NULL,
+                    model TEXT NOT NULL,
+                    category TEXT NOT NULL,
+                    price_cents INTEGER NOT NULL CHECK(price_cents >= 0),
+                    quantity INTEGER NOT NULL CHECK(quantity BETWEEN 0 AND 1000000)
+                );
             """)
 
     @contextmanager
@@ -42,8 +50,4 @@ class Database:
     def add_user(self, email, password_hash):
         with self.connect() as db:
             cursor = db.execute("INSERT INTO users(email, password_hash) VALUES (?, ?)", (email, password_hash))
-            return self.user_by_id_after_insert(db, cursor.lastrowid)
-
-    @staticmethod
-    def user_by_id_after_insert(db, user_id):
-        return db.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
+            return db.execute("SELECT * FROM users WHERE id = ?", (cursor.lastrowid,)).fetchone()
