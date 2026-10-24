@@ -1,0 +1,12 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.7.0
+rootdir: /workspace/scratch/ea3c5f6df765/car-dealership/backend
+configfile: pytest.ini
+testpaths: tests
+plugins: cov-7.1.0, anyio-4.15.1
+collected 58 items
+
+tests/test_auth.py ...........                                           [ 18%]
+tests/test_inventory.py .........                                        [ 34%]
+tests/test_security_and_setup.py .........                               [ 50%]
+tests/test_vehicles.py ............................

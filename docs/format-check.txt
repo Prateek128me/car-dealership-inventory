@@ -1,0 +1,7 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> apex-motors@1.0.0 format:check
+> prettier --check src *.ts *.json index.html e2e
+
+Checking formatting...
+All matched files use Prettier code style!

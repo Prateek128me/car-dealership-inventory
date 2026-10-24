@@ -1,0 +1,30 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> apex-motors@1.0.0 test:e2e
+> playwright test
+
+[2m[WebServer] [22m(node:179) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22mnpm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+[2m[WebServer] [22m(node:192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:229) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:229) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 e2e/showroom.spec.ts:15:1 › registration, buyer permissions, purchase and sold-out controls (1.3s)
+  ✓  2 e2e/showroom.spec.ts:47:1 › search, combined filters and empty state (1.3s)
+  ✓  3 e2e/showroom.spec.ts:63:1 › admin adds, edits, restocks and deletes a vehicle (2.0s)
+  ✓  4 e2e/showroom.spec.ts:89:1 › invalid credentials show a useful error (527ms)
+  ✓  5 e2e/showroom.spec.ts:97:1 › expired sessions return to sign-in (605ms)
+  ✓  6 e2e/showroom.spec.ts:113:1 › capture desktop, mobile and login screenshots (1.4s)
+
+  6 passed (9.8s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

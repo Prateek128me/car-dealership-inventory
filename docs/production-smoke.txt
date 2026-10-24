@@ -1,0 +1,4 @@
+PASS: built SPA served from FastAPI at /
+PASS: both compiled JavaScript and CSS assets return 200
+PASS: unknown API path remains 404 instead of returning SPA HTML
+PASS: health endpoint returns ok

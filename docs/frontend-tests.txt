@@ -1,0 +1,31 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> apex-motors@1.0.0 test:coverage
+> vitest run --coverage
+
+
+ RUN  v5.0.5 /workspace/scratch/ea3c5f6df765/car-dealership/frontend
+      Coverage enabled with v8
+
+
+ Test Files  2 passed (2)
+      Tests  14 passed (14)
+   Start at  18:06:37
+   Duration  3.17s (tests 53%, environment 26%, import 7%, transform 6%, setup 6%, worker 2%)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   91.94 |     93.5 |   90.19 |    94.2 |                   
+ App.tsx           |   89.77 |    90.47 |   86.66 |    92.5 | 90-91,272-308     
+ VehicleDialog.tsx |   86.36 |    94.11 |      75 |      90 | 53-54             
+ api.ts            |     100 |    88.23 |     100 |     100 | 33,43             
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 91.94% ( 137/149 )
+Branches     : 93.5% ( 144/154 )
+Functions    : 90.19% ( 46/51 )
+Lines        : 94.2% ( 130/138 )
+================================================================================
