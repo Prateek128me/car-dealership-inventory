@@ -1,0 +1,832 @@
+...........FFFFFF.FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF                        [100%]
+=================================== FAILURES ===================================
+_______________________ test_purchase_and_admin_restock ________________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d32405700>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MDk5LCJleHAiOjE3OTI4NjA2OTl9.WDSdcpOFik7EnYCp-S1vc3gWISzOC0g6fLzN8_UE6KQ'}
+admin_headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzkyODU3MDk5LCJleHAiOjE3OTI4NjA2OTl9.Ad3CoxM6KSHrc5GyoxZNP4Zs02g9Z-1avBAXxODAb-Y'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def test_purchase_and_admin_restock(client, headers, admin_headers, vehicle):
+>       created = add(client, headers, vehicle | {"quantity": 1})
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_inventory.py:7: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d32405700>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MDk5LCJleHAiOjE3OTI4NjA2OTl9.WDSdcpOFik7EnYCp-S1vc3gWISzOC0g6fLzN8_UE6KQ'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+___________________ test_restock_rejects_invalid_quantity[0] ___________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d324232c0>
+admin_headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MDk5LCJleHAiOjE3OTI4NjA2OTl9.WDSdcpOFik7EnYCp-S1vc3gWISzOC0g6fLzN8_UE6KQ'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+quantity = 0
+
+    @pytest.mark.parametrize("quantity", [0, -1, 1.5, True, 1000001])
+    def test_restock_rejects_invalid_quantity(client, admin_headers, vehicle, quantity):
+>       created = add(client, admin_headers, vehicle)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_inventory.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d324232c0>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MDk5LCJleHAiOjE3OTI4NjA2OTl9.WDSdcpOFik7EnYCp-S1vc3gWISzOC0g6fLzN8_UE6KQ'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+__________________ test_restock_rejects_invalid_quantity[-1] ___________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d32431550>
+admin_headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MDk5LCJleHAiOjE3OTI4NjA2OTl9.WDSdcpOFik7EnYCp-S1vc3gWISzOC0g6fLzN8_UE6KQ'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+quantity = -1
+
+    @pytest.mark.parametrize("quantity", [0, -1, 1.5, True, 1000001])
+    def test_restock_rejects_invalid_quantity(client, admin_headers, vehicle, quantity):
+>       created = add(client, admin_headers, vehicle)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_inventory.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d32431550>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MDk5LCJleHAiOjE3OTI4NjA2OTl9.WDSdcpOFik7EnYCp-S1vc3gWISzOC0g6fLzN8_UE6KQ'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+__________________ test_restock_rejects_invalid_quantity[1.5] __________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d32433110>
+admin_headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MDk5LCJleHAiOjE3OTI4NjA2OTl9.WDSdcpOFik7EnYCp-S1vc3gWISzOC0g6fLzN8_UE6KQ'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+quantity = 1.5
+
+    @pytest.mark.parametrize("quantity", [0, -1, 1.5, True, 1000001])
+    def test_restock_rejects_invalid_quantity(client, admin_headers, vehicle, quantity):
+>       created = add(client, admin_headers, vehicle)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_inventory.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d32433110>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MDk5LCJleHAiOjE3OTI4NjA2OTl9.WDSdcpOFik7EnYCp-S1vc3gWISzOC0g6fLzN8_UE6KQ'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+_________________ test_restock_rejects_invalid_quantity[True] __________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d32421cd0>
+admin_headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MDk5LCJleHAiOjE3OTI4NjA2OTl9.WDSdcpOFik7EnYCp-S1vc3gWISzOC0g6fLzN8_UE6KQ'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+quantity = True
+
+    @pytest.mark.parametrize("quantity", [0, -1, 1.5, True, 1000001])
+    def test_restock_rejects_invalid_quantity(client, admin_headers, vehicle, quantity):
+>       created = add(client, admin_headers, vehicle)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_inventory.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d32421cd0>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MDk5LCJleHAiOjE3OTI4NjA2OTl9.WDSdcpOFik7EnYCp-S1vc3gWISzOC0g6fLzN8_UE6KQ'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+________________ test_restock_rejects_invalid_quantity[1000001] ________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d325082f0>
+admin_headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MDk5LCJleHAiOjE3OTI4NjA2OTl9.WDSdcpOFik7EnYCp-S1vc3gWISzOC0g6fLzN8_UE6KQ'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+quantity = 1000001
+
+    @pytest.mark.parametrize("quantity", [0, -1, 1.5, True, 1000001])
+    def test_restock_rejects_invalid_quantity(client, admin_headers, vehicle, quantity):
+>       created = add(client, admin_headers, vehicle)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_inventory.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d325082f0>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MDk5LCJleHAiOjE3OTI4NjA2OTl9.WDSdcpOFik7EnYCp-S1vc3gWISzOC0g6fLzN8_UE6KQ'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+__________________ test_concurrent_purchases_cannot_oversell ___________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d3128dee0>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def test_concurrent_purchases_cannot_oversell(client, headers, vehicle):
+>       created = add(client, headers, vehicle | {"quantity": 1})
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_inventory.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d3128dee0>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+_____________________ test_restock_cannot_exceed_capacity ______________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d3128fb60>
+admin_headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def test_restock_cannot_exceed_capacity(client, admin_headers, vehicle):
+>       created = add(client, admin_headers, vehicle | {"quantity": 1000000})
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_inventory.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d3128fb60>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+___________________ test_add_list_update_delete_and_persist ____________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d3250c8c0>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+admin_headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.C8wmQoyYAvRLOBC2ibUnP_K_OTmv0oHpGa24QrxczRc'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+db_path = '/tmp/pytest-of-root/pytest-2/test_add_list_update_delete_an0/dealership.db'
+
+    def test_add_list_update_delete_and_persist(client, headers, admin_headers, vehicle, db_path):
+>       created = add(client, headers, vehicle)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_vehicles.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d3250c8c0>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+____________________ test_search_filters[params0-expected0] ____________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d32422900>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+params = {'make': 'toy'}, expected = ['Camry']
+
+    @pytest.mark.parametrize("params,expected", [
+        ({"make": "toy"}, ["Camry"]), ({"model": "cAM"}, ["Camry"]),
+        ({"category": "suv"}, ["X1"]), ({"min_price": "3500000.50", "max_price": "3500000.50"}, ["Camry"]),
+        ({"make": "Toyota", "category": "SUV"}, []), ({"max_price": "1"}, []),
+        ({"make": "%' OR 1=1 --"}, []), ({"make": "%"}, []),
+    ])
+    def test_search_filters(client, headers, vehicle, params, expected):
+>       add(client, headers, vehicle)
+
+tests/test_vehicles.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d32422900>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+____________________ test_search_filters[params1-expected1] ____________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d312b1760>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+params = {'model': 'cAM'}, expected = ['Camry']
+
+    @pytest.mark.parametrize("params,expected", [
+        ({"make": "toy"}, ["Camry"]), ({"model": "cAM"}, ["Camry"]),
+        ({"category": "suv"}, ["X1"]), ({"min_price": "3500000.50", "max_price": "3500000.50"}, ["Camry"]),
+        ({"make": "Toyota", "category": "SUV"}, []), ({"max_price": "1"}, []),
+        ({"make": "%' OR 1=1 --"}, []), ({"make": "%"}, []),
+    ])
+    def test_search_filters(client, headers, vehicle, params, expected):
+>       add(client, headers, vehicle)
+
+tests/test_vehicles.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d312b1760>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+____________________ test_search_filters[params2-expected2] ____________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d312a8ef0>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+params = {'category': 'suv'}, expected = ['X1']
+
+    @pytest.mark.parametrize("params,expected", [
+        ({"make": "toy"}, ["Camry"]), ({"model": "cAM"}, ["Camry"]),
+        ({"category": "suv"}, ["X1"]), ({"min_price": "3500000.50", "max_price": "3500000.50"}, ["Camry"]),
+        ({"make": "Toyota", "category": "SUV"}, []), ({"max_price": "1"}, []),
+        ({"make": "%' OR 1=1 --"}, []), ({"make": "%"}, []),
+    ])
+    def test_search_filters(client, headers, vehicle, params, expected):
+>       add(client, headers, vehicle)
+
+tests/test_vehicles.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d312a8ef0>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+____________________ test_search_filters[params3-expected3] ____________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d32430800>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+params = {'min_price': '3500000.50', 'max_price': '3500000.50'}
+expected = ['Camry']
+
+    @pytest.mark.parametrize("params,expected", [
+        ({"make": "toy"}, ["Camry"]), ({"model": "cAM"}, ["Camry"]),
+        ({"category": "suv"}, ["X1"]), ({"min_price": "3500000.50", "max_price": "3500000.50"}, ["Camry"]),
+        ({"make": "Toyota", "category": "SUV"}, []), ({"max_price": "1"}, []),
+        ({"make": "%' OR 1=1 --"}, []), ({"make": "%"}, []),
+    ])
+    def test_search_filters(client, headers, vehicle, params, expected):
+>       add(client, headers, vehicle)
+
+tests/test_vehicles.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d32430800>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+____________________ test_search_filters[params4-expected4] ____________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d3250bda0>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+params = {'make': 'Toyota', 'category': 'SUV'}, expected = []
+
+    @pytest.mark.parametrize("params,expected", [
+        ({"make": "toy"}, ["Camry"]), ({"model": "cAM"}, ["Camry"]),
+        ({"category": "suv"}, ["X1"]), ({"min_price": "3500000.50", "max_price": "3500000.50"}, ["Camry"]),
+        ({"make": "Toyota", "category": "SUV"}, []), ({"max_price": "1"}, []),
+        ({"make": "%' OR 1=1 --"}, []), ({"make": "%"}, []),
+    ])
+    def test_search_filters(client, headers, vehicle, params, expected):
+>       add(client, headers, vehicle)
+
+tests/test_vehicles.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d3250bda0>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+____________________ test_search_filters[params5-expected5] ____________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d323f8c20>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+params = {'max_price': '1'}, expected = []
+
+    @pytest.mark.parametrize("params,expected", [
+        ({"make": "toy"}, ["Camry"]), ({"model": "cAM"}, ["Camry"]),
+        ({"category": "suv"}, ["X1"]), ({"min_price": "3500000.50", "max_price": "3500000.50"}, ["Camry"]),
+        ({"make": "Toyota", "category": "SUV"}, []), ({"max_price": "1"}, []),
+        ({"make": "%' OR 1=1 --"}, []), ({"make": "%"}, []),
+    ])
+    def test_search_filters(client, headers, vehicle, params, expected):
+>       add(client, headers, vehicle)
+
+tests/test_vehicles.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d323f8c20>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+____________________ test_search_filters[params6-expected6] ____________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d3250b980>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+params = {'make': "%' OR 1=1 --"}, expected = []
+
+    @pytest.mark.parametrize("params,expected", [
+        ({"make": "toy"}, ["Camry"]), ({"model": "cAM"}, ["Camry"]),
+        ({"category": "suv"}, ["X1"]), ({"min_price": "3500000.50", "max_price": "3500000.50"}, ["Camry"]),
+        ({"make": "Toyota", "category": "SUV"}, []), ({"max_price": "1"}, []),
+        ({"make": "%' OR 1=1 --"}, []), ({"make": "%"}, []),
+    ])
+    def test_search_filters(client, headers, vehicle, params, expected):
+>       add(client, headers, vehicle)
+
+tests/test_vehicles.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d3250b980>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAwLCJleHAiOjE3OTI4NjA3MDB9.ES61WjrezqW9l-gI6t-_4QBCOjrkgu3SY5wLgAw29eY'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+____________________ test_search_filters[params7-expected7] ____________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d312c6b10>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+params = {'make': '%'}, expected = []
+
+    @pytest.mark.parametrize("params,expected", [
+        ({"make": "toy"}, ["Camry"]), ({"model": "cAM"}, ["Camry"]),
+        ({"category": "suv"}, ["X1"]), ({"min_price": "3500000.50", "max_price": "3500000.50"}, ["Camry"]),
+        ({"make": "Toyota", "category": "SUV"}, []), ({"max_price": "1"}, []),
+        ({"make": "%' OR 1=1 --"}, []), ({"make": "%"}, []),
+    ])
+    def test_search_filters(client, headers, vehicle, params, expected):
+>       add(client, headers, vehicle)
+
+tests/test_vehicles.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d312c6b10>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+________________________ test_invalid_vehicle[changes0] ________________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d312e1e50>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+changes = {'price': '-1'}
+
+    @pytest.mark.parametrize("changes", [{"price": "-1"}, {"price": "1.001"}, {"price": "NaN"}, {"quantity": -1}, {"quantity": 1.5}, {"quantity": True}, {"make": "  "}, {"category": ""}, {"unexpected": 1}])
+    def test_invalid_vehicle(client, headers, vehicle, changes):
+>       assert client.post("/api/vehicles", json=vehicle | changes, headers=headers).status_code == 422
+E       AssertionError: assert 404 == 422
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/vehicles', json=({'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...} | {'price': '-1'}), headers={'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'})
+E        +      where post = <starlette.testclient.TestClient object at 0x7f6d312e1e50>.post
+
+tests/test_vehicles.py:46: AssertionError
+________________________ test_invalid_vehicle[changes1] ________________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d312c4500>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+changes = {'price': '1.001'}
+
+    @pytest.mark.parametrize("changes", [{"price": "-1"}, {"price": "1.001"}, {"price": "NaN"}, {"quantity": -1}, {"quantity": 1.5}, {"quantity": True}, {"make": "  "}, {"category": ""}, {"unexpected": 1}])
+    def test_invalid_vehicle(client, headers, vehicle, changes):
+>       assert client.post("/api/vehicles", json=vehicle | changes, headers=headers).status_code == 422
+E       AssertionError: assert 404 == 422
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/vehicles', json=({'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...} | {'price': '1.001'}), headers={'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'})
+E        +      where post = <starlette.testclient.TestClient object at 0x7f6d312c4500>.post
+
+tests/test_vehicles.py:46: AssertionError
+________________________ test_invalid_vehicle[changes2] ________________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d312c9700>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+changes = {'price': 'NaN'}
+
+    @pytest.mark.parametrize("changes", [{"price": "-1"}, {"price": "1.001"}, {"price": "NaN"}, {"quantity": -1}, {"quantity": 1.5}, {"quantity": True}, {"make": "  "}, {"category": ""}, {"unexpected": 1}])
+    def test_invalid_vehicle(client, headers, vehicle, changes):
+>       assert client.post("/api/vehicles", json=vehicle | changes, headers=headers).status_code == 422
+E       AssertionError: assert 404 == 422
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/vehicles', json=({'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...} | {'price': 'NaN'}), headers={'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'})
+E        +      where post = <starlette.testclient.TestClient object at 0x7f6d312c9700>.post
+
+tests/test_vehicles.py:46: AssertionError
+________________________ test_invalid_vehicle[changes3] ________________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d325086e0>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+changes = {'quantity': -1}
+
+    @pytest.mark.parametrize("changes", [{"price": "-1"}, {"price": "1.001"}, {"price": "NaN"}, {"quantity": -1}, {"quantity": 1.5}, {"quantity": True}, {"make": "  "}, {"category": ""}, {"unexpected": 1}])
+    def test_invalid_vehicle(client, headers, vehicle, changes):
+>       assert client.post("/api/vehicles", json=vehicle | changes, headers=headers).status_code == 422
+E       AssertionError: assert 404 == 422
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/vehicles', json=({'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...} | {'quantity': -1}), headers={'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'})
+E        +      where post = <starlette.testclient.TestClient object at 0x7f6d325086e0>.post
+
+tests/test_vehicles.py:46: AssertionError
+________________________ test_invalid_vehicle[changes4] ________________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d312b3590>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+changes = {'quantity': 1.5}
+
+    @pytest.mark.parametrize("changes", [{"price": "-1"}, {"price": "1.001"}, {"price": "NaN"}, {"quantity": -1}, {"quantity": 1.5}, {"quantity": True}, {"make": "  "}, {"category": ""}, {"unexpected": 1}])
+    def test_invalid_vehicle(client, headers, vehicle, changes):
+>       assert client.post("/api/vehicles", json=vehicle | changes, headers=headers).status_code == 422
+E       AssertionError: assert 404 == 422
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/vehicles', json=({'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...} | {'quantity': 1.5}), headers={'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'})
+E        +      where post = <starlette.testclient.TestClient object at 0x7f6d312b3590>.post
+
+tests/test_vehicles.py:46: AssertionError
+________________________ test_invalid_vehicle[changes5] ________________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d312fb380>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+changes = {'quantity': True}
+
+    @pytest.mark.parametrize("changes", [{"price": "-1"}, {"price": "1.001"}, {"price": "NaN"}, {"quantity": -1}, {"quantity": 1.5}, {"quantity": True}, {"make": "  "}, {"category": ""}, {"unexpected": 1}])
+    def test_invalid_vehicle(client, headers, vehicle, changes):
+>       assert client.post("/api/vehicles", json=vehicle | changes, headers=headers).status_code == 422
+E       AssertionError: assert 404 == 422
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/vehicles', json=({'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...} | {'quantity': True}), headers={'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'})
+E        +      where post = <starlette.testclient.TestClient object at 0x7f6d312fb380>.post
+
+tests/test_vehicles.py:46: AssertionError
+________________________ test_invalid_vehicle[changes6] ________________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d3130af30>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+changes = {'make': '  '}
+
+    @pytest.mark.parametrize("changes", [{"price": "-1"}, {"price": "1.001"}, {"price": "NaN"}, {"quantity": -1}, {"quantity": 1.5}, {"quantity": True}, {"make": "  "}, {"category": ""}, {"unexpected": 1}])
+    def test_invalid_vehicle(client, headers, vehicle, changes):
+>       assert client.post("/api/vehicles", json=vehicle | changes, headers=headers).status_code == 422
+E       AssertionError: assert 404 == 422
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/vehicles', json=({'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...} | {'make': '  '}), headers={'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'})
+E        +      where post = <starlette.testclient.TestClient object at 0x7f6d3130af30>.post
+
+tests/test_vehicles.py:46: AssertionError
+________________________ test_invalid_vehicle[changes7] ________________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d312fb680>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+changes = {'category': ''}
+
+    @pytest.mark.parametrize("changes", [{"price": "-1"}, {"price": "1.001"}, {"price": "NaN"}, {"quantity": -1}, {"quantity": 1.5}, {"quantity": True}, {"make": "  "}, {"category": ""}, {"unexpected": 1}])
+    def test_invalid_vehicle(client, headers, vehicle, changes):
+>       assert client.post("/api/vehicles", json=vehicle | changes, headers=headers).status_code == 422
+E       AssertionError: assert 404 == 422
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/vehicles', json=({'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...} | {'category': ''}), headers={'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'})
+E        +      where post = <starlette.testclient.TestClient object at 0x7f6d312fb680>.post
+
+tests/test_vehicles.py:46: AssertionError
+________________________ test_invalid_vehicle[changes8] ________________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d3130aae0>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+changes = {'unexpected': 1}
+
+    @pytest.mark.parametrize("changes", [{"price": "-1"}, {"price": "1.001"}, {"price": "NaN"}, {"quantity": -1}, {"quantity": 1.5}, {"quantity": True}, {"make": "  "}, {"category": ""}, {"unexpected": 1}])
+    def test_invalid_vehicle(client, headers, vehicle, changes):
+>       assert client.post("/api/vehicles", json=vehicle | changes, headers=headers).status_code == 422
+E       AssertionError: assert 404 == 422
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/vehicles', json=({'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...} | {'unexpected': 1}), headers={'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'})
+E        +      where post = <starlette.testclient.TestClient object at 0x7f6d3130aae0>.post
+
+tests/test_vehicles.py:46: AssertionError
+______________________ test_invalid_price_range[params0] _______________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d312c8890>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'}
+params = {'min_price': -1}
+
+    @pytest.mark.parametrize("params", [{"min_price": -1}, {"min_price": 3, "max_price": 2}, {"max_price": "NaN"}])
+    def test_invalid_price_range(client, headers, params):
+>       assert client.get("/api/vehicles/search", params=params, headers=headers).status_code == 422
+E       AssertionError: assert 404 == 422
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = get('/api/vehicles/search', params={'min_price': -1}, headers={'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'})
+E        +      where get = <starlette.testclient.TestClient object at 0x7f6d312c8890>.get
+
+tests/test_vehicles.py:51: AssertionError
+______________________ test_invalid_price_range[params1] _______________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d312e06e0>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'}
+params = {'min_price': 3, 'max_price': 2}
+
+    @pytest.mark.parametrize("params", [{"min_price": -1}, {"min_price": 3, "max_price": 2}, {"max_price": "NaN"}])
+    def test_invalid_price_range(client, headers, params):
+>       assert client.get("/api/vehicles/search", params=params, headers=headers).status_code == 422
+E       AssertionError: assert 404 == 422
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = get('/api/vehicles/search', params={'min_price': 3, 'max_price': 2}, headers={'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'})
+E        +      where get = <starlette.testclient.TestClient object at 0x7f6d312e06e0>.get
+
+tests/test_vehicles.py:51: AssertionError
+______________________ test_invalid_price_range[params2] _______________________
+
+client = <starlette.testclient.TestClient object at 0x7f6d31336120>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'}
+params = {'max_price': 'NaN'}
+
+    @pytest.mark.parametrize("params", [{"min_price": -1}, {"min_price": 3, "max_price": 2}, {"max_price": "NaN"}])
+    def test_invalid_price_range(client, headers, params):
+>       assert client.get("/api/vehicles/search", params=params, headers=headers).status_code == 422
+E       AssertionError: assert 404 == 422
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = get('/api/vehicles/search', params={'max_price': 'NaN'}, headers={'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAxLCJleHAiOjE3OTI4NjA3MDF9.DYOBUZEewM8hd0WwvHjfLUNHxBoc8aLPIww_uA8mKdg'})
+E        +      where get = <starlette.testclient.TestClient object at 0x7f6d31336120>.get
+
+tests/test_vehicles.py:51: AssertionError
+__________ test_all_vehicle_endpoints_require_auth[get-/api/vehicles] __________
+
+client = <starlette.testclient.TestClient object at 0x7f6d31337b90>
+method = 'get', path = '/api/vehicles'
+
+    @pytest.mark.parametrize("method,path", [("get", "/api/vehicles"), ("get", "/api/vehicles/search"), ("post", "/api/vehicles"), ("put", "/api/vehicles/1"), ("delete", "/api/vehicles/1"), ("post", "/api/vehicles/1/purchase"), ("post", "/api/vehicles/1/restock")])
+    def test_all_vehicle_endpoints_require_auth(client, method, path):
+>       assert getattr(client, method)(path).status_code == 401
+E       AssertionError: assert 404 == 401
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = get('/api/vehicles')
+E        +      where get = getattr(<starlette.testclient.TestClient object at 0x7f6d31337b90>, 'get')
+
+tests/test_vehicles.py:56: AssertionError
+______ test_all_vehicle_endpoints_require_auth[get-/api/vehicles/search] _______
+
+client = <starlette.testclient.TestClient object at 0x7f6d31335430>
+method = 'get', path = '/api/vehicles/search'
+
+    @pytest.mark.parametrize("method,path", [("get", "/api/vehicles"), ("get", "/api/vehicles/search"), ("post", "/api/vehicles"), ("put", "/api/vehicles/1"), ("delete", "/api/vehicles/1"), ("post", "/api/vehicles/1/purchase"), ("post", "/api/vehicles/1/restock")])
+    def test_all_vehicle_endpoints_require_auth(client, method, path):
+>       assert getattr(client, method)(path).status_code == 401
+E       AssertionError: assert 404 == 401
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = get('/api/vehicles/search')
+E        +      where get = getattr(<starlette.testclient.TestClient object at 0x7f6d31335430>, 'get')
+
+tests/test_vehicles.py:56: AssertionError
+_________ test_all_vehicle_endpoints_require_auth[post-/api/vehicles] __________
+
+client = <starlette.testclient.TestClient object at 0x7f6d313343b0>
+method = 'post', path = '/api/vehicles'
+
+    @pytest.mark.parametrize("method,path", [("get", "/api/vehicles"), ("get", "/api/vehicles/search"), ("post", "/api/vehicles"), ("put", "/api/vehicles/1"), ("delete", "/api/vehicles/1"), ("post", "/api/vehicles/1/purchase"), ("post", "/api/vehicles/1/restock")])
+    def test_all_vehicle_endpoints_require_auth(client, method, path):
+>       assert getattr(client, method)(path).status_code == 401
+E       AssertionError: assert 404 == 401
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/vehicles')
+E        +      where post = getattr(<starlette.testclient.TestClient object at 0x7f6d313343b0>, 'post')
+
+tests/test_vehicles.py:56: AssertionError
+_________ test_all_vehicle_endpoints_require_auth[put-/api/vehicles/1] _________
+
+client = <starlette.testclient.TestClient object at 0x7f6d313256d0>
+method = 'put', path = '/api/vehicles/1'
+
+    @pytest.mark.parametrize("method,path", [("get", "/api/vehicles"), ("get", "/api/vehicles/search"), ("post", "/api/vehicles"), ("put", "/api/vehicles/1"), ("delete", "/api/vehicles/1"), ("post", "/api/vehicles/1/purchase"), ("post", "/api/vehicles/1/restock")])
+    def test_all_vehicle_endpoints_require_auth(client, method, path):
+>       assert getattr(client, method)(path).status_code == 401
+E       AssertionError: assert 404 == 401
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = put('/api/vehicles/1')
+E        +      where put = getattr(<starlette.testclient.TestClient object at 0x7f6d313256d0>, 'put')
+
+tests/test_vehicles.py:56: AssertionError
+_______ test_all_vehicle_endpoints_require_auth[delete-/api/vehicles/1] ________
+
+client = <starlette.testclient.TestClient object at 0x7f6d312cb6b0>
+method = 'delete', path = '/api/vehicles/1'
+
+    @pytest.mark.parametrize("method,path", [("get", "/api/vehicles"), ("get", "/api/vehicles/search"), ("post", "/api/vehicles"), ("put", "/api/vehicles/1"), ("delete", "/api/vehicles/1"), ("post", "/api/vehicles/1/purchase"), ("post", "/api/vehicles/1/restock")])
+    def test_all_vehicle_endpoints_require_auth(client, method, path):
+>       assert getattr(client, method)(path).status_code == 401
+E       AssertionError: assert 404 == 401
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = delete('/api/vehicles/1')
+E        +      where delete = getattr(<starlette.testclient.TestClient object at 0x7f6d312cb6b0>, 'delete')
+
+tests/test_vehicles.py:56: AssertionError
+____ test_all_vehicle_endpoints_require_auth[post-/api/vehicles/1/purchase] ____
+
+client = <starlette.testclient.TestClient object at 0x7f6d312aa720>
+method = 'post', path = '/api/vehicles/1/purchase'
+
+    @pytest.mark.parametrize("method,path", [("get", "/api/vehicles"), ("get", "/api/vehicles/search"), ("post", "/api/vehicles"), ("put", "/api/vehicles/1"), ("delete", "/api/vehicles/1"), ("post", "/api/vehicles/1/purchase"), ("post", "/api/vehicles/1/restock")])
+    def test_all_vehicle_endpoints_require_auth(client, method, path):
+>       assert getattr(client, method)(path).status_code == 401
+E       AssertionError: assert 404 == 401
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/vehicles/1/purchase')
+E        +      where post = getattr(<starlette.testclient.TestClient object at 0x7f6d312aa720>, 'post')
+
+tests/test_vehicles.py:56: AssertionError
+____ test_all_vehicle_endpoints_require_auth[post-/api/vehicles/1/restock] _____
+
+client = <starlette.testclient.TestClient object at 0x7f6d32406b10>
+method = 'post', path = '/api/vehicles/1/restock'
+
+    @pytest.mark.parametrize("method,path", [("get", "/api/vehicles"), ("get", "/api/vehicles/search"), ("post", "/api/vehicles"), ("put", "/api/vehicles/1"), ("delete", "/api/vehicles/1"), ("post", "/api/vehicles/1/purchase"), ("post", "/api/vehicles/1/restock")])
+    def test_all_vehicle_endpoints_require_auth(client, method, path):
+>       assert getattr(client, method)(path).status_code == 401
+E       AssertionError: assert 404 == 401
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/vehicles/1/restock')
+E        +      where post = getattr(<starlette.testclient.TestClient object at 0x7f6d32406b10>, 'post')
+
+tests/test_vehicles.py:56: AssertionError
+_____________ test_missing_vehicle_and_stock_cannot_be_overwritten _____________
+
+client = <starlette.testclient.TestClient object at 0x7f6d32406a80>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAyLCJleHAiOjE3OTI4NjA3MDJ9.i8ze0aeSRUi5182Rtp_R40kQ3Sz6GmBuEOocKT1pTpU'}
+admin_headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzkyODU3MTAyLCJleHAiOjE3OTI4NjA3MDJ9.9u5pNNb9d2C8QFh56MVq-qcLzU6RA5f7Us0eXWq4Grk'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def test_missing_vehicle_and_stock_cannot_be_overwritten(client, headers, admin_headers, vehicle):
+        details = {key: value for key, value in vehicle.items() if key != "quantity"}
+        assert client.put("/api/vehicles/999", json=details, headers=headers).status_code == 404
+        assert client.delete("/api/vehicles/999", headers=admin_headers).status_code == 404
+>       created = add(client, headers, vehicle)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_vehicles.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f6d32406a80>
+headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzkyODU3MTAyLCJleHAiOjE3OTI4NjA3MDJ9.i8ze0aeSRUi5182Rtp_R40kQ3Sz6GmBuEOocKT1pTpU'}
+vehicle = {'make': 'Toyota', 'model': 'Camry', 'category': 'Sedan', 'price': '3500000.50', ...}
+
+    def add(client, headers, vehicle):
+        response = client.post("/api/vehicles", json=vehicle, headers=headers)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_vehicles.py:9: AssertionError
+=============================== warnings summary ===============================
+../../../../../root/.local/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /root/.local/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_inventory.py::test_purchase_and_admin_restock - assert 404 ...
+FAILED tests/test_inventory.py::test_restock_rejects_invalid_quantity[0] - as...
+FAILED tests/test_inventory.py::test_restock_rejects_invalid_quantity[-1] - a...
+FAILED tests/test_inventory.py::test_restock_rejects_invalid_quantity[1.5] - ...
+FAILED tests/test_inventory.py::test_restock_rejects_invalid_quantity[True]
+FAILED tests/test_inventory.py::test_restock_rejects_invalid_quantity[1000001]
+FAILED tests/test_inventory.py::test_concurrent_purchases_cannot_oversell - a...
+FAILED tests/test_inventory.py::test_restock_cannot_exceed_capacity - assert ...
+FAILED tests/test_vehicles.py::test_add_list_update_delete_and_persist - asse...
+FAILED tests/test_vehicles.py::test_search_filters[params0-expected0] - asser...
+FAILED tests/test_vehicles.py::test_search_filters[params1-expected1] - asser...
+FAILED tests/test_vehicles.py::test_search_filters[params2-expected2] - asser...
+FAILED tests/test_vehicles.py::test_search_filters[params3-expected3] - asser...
+FAILED tests/test_vehicles.py::test_search_filters[params4-expected4] - asser...
+FAILED tests/test_vehicles.py::test_search_filters[params5-expected5] - asser...
+FAILED tests/test_vehicles.py::test_search_filters[params6-expected6] - asser...
+FAILED tests/test_vehicles.py::test_search_filters[params7-expected7] - asser...
+FAILED tests/test_vehicles.py::test_invalid_vehicle[changes0] - AssertionErro...
+FAILED tests/test_vehicles.py::test_invalid_vehicle[changes1] - AssertionErro...
+FAILED tests/test_vehicles.py::test_invalid_vehicle[changes2] - AssertionErro...
+FAILED tests/test_vehicles.py::test_invalid_vehicle[changes3] - AssertionErro...
+FAILED tests/test_vehicles.py::test_invalid_vehicle[changes4] - AssertionErro...
+FAILED tests/test_vehicles.py::test_invalid_vehicle[changes5] - AssertionErro...
+FAILED tests/test_vehicles.py::test_invalid_vehicle[changes6] - AssertionErro...
+FAILED tests/test_vehicles.py::test_invalid_vehicle[changes7] - AssertionErro...
+FAILED tests/test_vehicles.py::test_invalid_vehicle[changes8] - AssertionErro...
+FAILED tests/test_vehicles.py::test_invalid_price_range[params0] - AssertionE...
+FAILED tests/test_vehicles.py::test_invalid_price_range[params1] - AssertionE...
+FAILED tests/test_vehicles.py::test_invalid_price_range[params2] - AssertionE...
+FAILED tests/test_vehicles.py::test_all_vehicle_endpoints_require_auth[get-/api/vehicles]
+FAILED tests/test_vehicles.py::test_all_vehicle_endpoints_require_auth[get-/api/vehicles/search]
+FAILED tests/test_vehicles.py::test_all_vehicle_endpoints_require_auth[post-/api/vehicles]
+FAILED tests/test_vehicles.py::test_all_vehicle_endpoints_require_auth[put-/api/vehicles/1]
+FAILED tests/test_vehicles.py::test_all_vehicle_endpoints_require_auth[delete-/api/vehicles/1]
+FAILED tests/test_vehicles.py::test_all_vehicle_endpoints_require_auth[post-/api/vehicles/1/purchase]
+FAILED tests/test_vehicles.py::test_all_vehicle_endpoints_require_auth[post-/api/vehicles/1/restock]
+FAILED tests/test_vehicles.py::test_missing_vehicle_and_stock_cannot_be_overwritten
+37 failed, 12 passed, 1 warning in 3.54s

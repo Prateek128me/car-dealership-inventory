@@ -1,4 +1,5 @@
 import pytest
+import sqlite3
 from fastapi.testclient import TestClient
 from app.main import create_app
 
@@ -25,3 +26,17 @@ def account():
 def headers(client, account):
     response = client.post("/api/auth/register", json=account)
     return {"Authorization": "Bearer " + response.json()["access_token"]}
+
+
+@pytest.fixture
+def admin_headers(client, db_path):
+    account = {"email": "admin@example.com", "password": "SafePassword123!"}
+    response = client.post("/api/auth/register", json=account)
+    with sqlite3.connect(db_path) as db:
+        db.execute("UPDATE users SET role='admin' WHERE email=?", (account["email"],))
+    return {"Authorization": "Bearer " + response.json()["access_token"]}
+
+
+@pytest.fixture
+def vehicle():
+    return {"make": "Toyota", "model": "Camry", "category": "Sedan", "price": "3500000.50", "quantity": 2}
