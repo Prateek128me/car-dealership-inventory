@@ -1,0 +1,182 @@
+FFFFFFFFFFF                                                              [100%]
+=================================== FAILURES ===================================
+______________ test_registration_returns_token_and_never_password ______________
+
+client = <starlette.testclient.TestClient object at 0x7f25abe69c40>
+account = {'email': 'buyer@example.com', 'password': 'SafePassword123!'}
+db_path = '/tmp/pytest-of-root/pytest-0/test_registration_returns_toke0/dealership.db'
+
+    def test_registration_returns_token_and_never_password(client, account, db_path):
+        response = client.post("/api/auth/register", json=account)
+>       assert response.status_code == 201
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_auth.py:10: AssertionError
+___________________ test_duplicate_email_is_case_insensitive ___________________
+
+client = <starlette.testclient.TestClient object at 0x7f25abe6d5b0>
+account = {'email': 'BUYER@example.com', 'password': 'SafePassword123!'}
+
+    def test_duplicate_email_is_case_insensitive(client, account):
+        client.post("/api/auth/register", json=account)
+        account["email"] = "BUYER@example.com"
+>       assert client.post("/api/auth/register", json=account).status_code == 409
+E       AssertionError: assert 404 == 409
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/auth/register', json={'email': 'BUYER@example.com', 'password': 'SafePassword123!'})
+E        +      where post = <starlette.testclient.TestClient object at 0x7f25abe6d5b0>.post
+
+tests/test_auth.py:25: AssertionError
+____________________________ test_login_and_profile ____________________________
+
+client = <starlette.testclient.TestClient object at 0x7f25abf1aa50>
+account = {'email': 'buyer@example.com', 'password': 'SafePassword123!'}
+
+    def test_login_and_profile(client, account):
+        client.post("/api/auth/register", json=account)
+        response = client.post("/api/auth/login", json=account)
+>       assert response.status_code == 200
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_auth.py:31: AssertionError
+________ test_invalid_credentials[missing@example.com-SafePassword123!] ________
+
+client = <starlette.testclient.TestClient object at 0x7f25abf71d90>
+account = {'email': 'buyer@example.com', 'password': 'SafePassword123!'}
+email = 'missing@example.com', password = 'SafePassword123!'
+
+    @pytest.mark.parametrize("email,password", [("missing@example.com", "SafePassword123!"), ("buyer@example.com", "wrong-password")])
+    def test_invalid_credentials(client, account, email, password):
+        client.post("/api/auth/register", json=account)
+        response = client.post("/api/auth/login", json={"email": email, "password": password})
+>       assert response.status_code == 401
+E       assert 404 == 401
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_auth.py:41: AssertionError
+__________ test_invalid_credentials[buyer@example.com-wrong-password] __________
+
+client = <starlette.testclient.TestClient object at 0x7f25abe6d430>
+account = {'email': 'buyer@example.com', 'password': 'SafePassword123!'}
+email = 'buyer@example.com', password = 'wrong-password'
+
+    @pytest.mark.parametrize("email,password", [("missing@example.com", "SafePassword123!"), ("buyer@example.com", "wrong-password")])
+    def test_invalid_credentials(client, account, email, password):
+        client.post("/api/auth/register", json=account)
+        response = client.post("/api/auth/login", json={"email": email, "password": password})
+>       assert response.status_code == 401
+E       assert 404 == 401
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests/test_auth.py:41: AssertionError
+________ test_registration_validation_and_no_role_escalation[changes0] _________
+
+client = <starlette.testclient.TestClient object at 0x7f25abf18f50>
+account = {'email': 'buyer@example.com', 'password': 'SafePassword123!'}
+changes = {'email': 'bad'}
+
+    @pytest.mark.parametrize("changes", [{"email": "bad"}, {"password": "short"}, {"role": "admin"}])
+    def test_registration_validation_and_no_role_escalation(client, account, changes):
+>       assert client.post("/api/auth/register", json=account | changes).status_code == 422
+E       AssertionError: assert 404 == 422
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/auth/register', json=({'email': 'buyer@example.com', 'password': 'SafePassword123!'} | {'email': 'bad'}))
+E        +      where post = <starlette.testclient.TestClient object at 0x7f25abf18f50>.post
+
+tests/test_auth.py:47: AssertionError
+________ test_registration_validation_and_no_role_escalation[changes1] _________
+
+client = <starlette.testclient.TestClient object at 0x7f25aa8b45f0>
+account = {'email': 'buyer@example.com', 'password': 'SafePassword123!'}
+changes = {'password': 'short'}
+
+    @pytest.mark.parametrize("changes", [{"email": "bad"}, {"password": "short"}, {"role": "admin"}])
+    def test_registration_validation_and_no_role_escalation(client, account, changes):
+>       assert client.post("/api/auth/register", json=account | changes).status_code == 422
+E       AssertionError: assert 404 == 422
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/auth/register', json=({'email': 'buyer@example.com', 'password': 'SafePassword123!'} | {'password': 'short'}))
+E        +      where post = <starlette.testclient.TestClient object at 0x7f25aa8b45f0>.post
+
+tests/test_auth.py:47: AssertionError
+________ test_registration_validation_and_no_role_escalation[changes2] _________
+
+client = <starlette.testclient.TestClient object at 0x7f25aa8b7aa0>
+account = {'email': 'buyer@example.com', 'password': 'SafePassword123!'}
+changes = {'role': 'admin'}
+
+    @pytest.mark.parametrize("changes", [{"email": "bad"}, {"password": "short"}, {"role": "admin"}])
+    def test_registration_validation_and_no_role_escalation(client, account, changes):
+>       assert client.post("/api/auth/register", json=account | changes).status_code == 422
+E       AssertionError: assert 404 == 422
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = post('/api/auth/register', json=({'email': 'buyer@example.com', 'password': 'SafePassword123!'} | {'role': 'admin'}))
+E        +      where post = <starlette.testclient.TestClient object at 0x7f25aa8b7aa0>.post
+
+tests/test_auth.py:47: AssertionError
+______________ test_profile_requires_valid_unexpired_token[None] _______________
+
+client = <starlette.testclient.TestClient object at 0x7f25aa8e53a0>
+token = None
+
+    @pytest.mark.parametrize("token", [None, "invalid", jwt.encode({"sub": "1", "exp": datetime.now(timezone.utc) - timedelta(minutes=1)}, SECRET, algorithm="HS256")])
+    def test_profile_requires_valid_unexpired_token(client, token):
+        headers = {"Authorization": "Bearer " + token} if token else {}
+>       assert client.get("/api/auth/me", headers=headers).status_code == 401
+E       AssertionError: assert 404 == 401
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = get('/api/auth/me', headers={})
+E        +      where get = <starlette.testclient.TestClient object at 0x7f25aa8e53a0>.get
+
+tests/test_auth.py:53: AssertionError
+_____________ test_profile_requires_valid_unexpired_token[invalid] _____________
+
+client = <starlette.testclient.TestClient object at 0x7f25aa8e6060>
+token = 'invalid'
+
+    @pytest.mark.parametrize("token", [None, "invalid", jwt.encode({"sub": "1", "exp": datetime.now(timezone.utc) - timedelta(minutes=1)}, SECRET, algorithm="HS256")])
+    def test_profile_requires_valid_unexpired_token(client, token):
+        headers = {"Authorization": "Bearer " + token} if token else {}
+>       assert client.get("/api/auth/me", headers=headers).status_code == 401
+E       AssertionError: assert 404 == 401
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = get('/api/auth/me', headers={'Authorization': 'Bearer invalid'})
+E        +      where get = <starlette.testclient.TestClient object at 0x7f25aa8e6060>.get
+
+tests/test_auth.py:53: AssertionError
+_ test_profile_requires_valid_unexpired_token[eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzkyODU2OTYxfQ.6BtCwkA8ti--ghw8jQZCllTvGo90FpCO27VtXczeUaQ] _
+
+client = <starlette.testclient.TestClient object at 0x7f25aa8fd1c0>
+token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzkyODU2OTYxfQ.6BtCwkA8ti--ghw8jQZCllTvGo90FpCO27VtXczeUaQ'
+
+    @pytest.mark.parametrize("token", [None, "invalid", jwt.encode({"sub": "1", "exp": datetime.now(timezone.utc) - timedelta(minutes=1)}, SECRET, algorithm="HS256")])
+    def test_profile_requires_valid_unexpired_token(client, token):
+        headers = {"Authorization": "Bearer " + token} if token else {}
+>       assert client.get("/api/auth/me", headers=headers).status_code == 401
+E       AssertionError: assert 404 == 401
+E        +  where 404 = <Response [404 Not Found]>.status_code
+E        +    where <Response [404 Not Found]> = get('/api/auth/me', headers={'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzkyODU2OTYxfQ.6BtCwkA8ti--ghw8jQZCllTvGo90FpCO27VtXczeUaQ'})
+E        +      where get = <starlette.testclient.TestClient object at 0x7f25aa8fd1c0>.get
+
+tests/test_auth.py:53: AssertionError
+=============================== warnings summary ===============================
+../../../../../root/.local/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /root/.local/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_auth.py::test_registration_returns_token_and_never_password
+FAILED tests/test_auth.py::test_duplicate_email_is_case_insensitive - Asserti...
+FAILED tests/test_auth.py::test_login_and_profile - assert 404 == 200
+FAILED tests/test_auth.py::test_invalid_credentials[missing@example.com-SafePassword123!]
+FAILED tests/test_auth.py::test_invalid_credentials[buyer@example.com-wrong-password]
+FAILED tests/test_auth.py::test_registration_validation_and_no_role_escalation[changes0]
+FAILED tests/test_auth.py::test_registration_validation_and_no_role_escalation[changes1]
+FAILED tests/test_auth.py::test_registration_validation_and_no_role_escalation[changes2]
+FAILED tests/test_auth.py::test_profile_requires_valid_unexpired_token[None]
+FAILED tests/test_auth.py::test_profile_requires_valid_unexpired_token[invalid]
+FAILED tests/test_auth.py::test_profile_requires_valid_unexpired_token[eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzkyODU2OTYxfQ.6BtCwkA8ti--ghw8jQZCllTvGo90FpCO27VtXczeUaQ]
+11 failed, 1 warning in 0.13s
