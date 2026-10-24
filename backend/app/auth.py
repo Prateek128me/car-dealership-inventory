@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, timezone
 import sqlite3
 import jwt
-from fastapi import HTTPException
+from .errors import DomainError
 from pwdlib import PasswordHash
 from .schemas import UserOut
 
@@ -21,14 +21,14 @@ class AuthService:
         try:
             user = self.database.add_user(credentials.email, password_hasher.hash(credentials.password))
         except sqlite3.IntegrityError:
-            raise HTTPException(409, "Email already registered") from None
+            raise DomainError(409, "Email already registered") from None
         return self.session(user)
 
     def login(self, credentials):
         user = self.database.user_by_email(credentials.email)
         valid = password_hasher.verify(credentials.password, user["password_hash"] if user else dummy_hash)
         if not valid or user is None:
-            raise HTTPException(401, "Invalid email or password")
+            raise DomainError(401, "Invalid email or password")
         return self.session(user)
 
     def session(self, user):
@@ -43,5 +43,5 @@ class AuthService:
         except (jwt.InvalidTokenError, ValueError, TypeError, OverflowError):
             user = None
         if user is None:
-            raise HTTPException(401, "Invalid or expired token", headers={"WWW-Authenticate": "Bearer"})
+            raise DomainError(401, "Invalid or expired token")
         return UserOut(**dict(user))

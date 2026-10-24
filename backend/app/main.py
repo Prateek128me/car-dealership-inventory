@@ -1,5 +1,7 @@
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.responses import JSONResponse
+from .errors import DomainError
 from .database import Database
 from .auth import AuthService
 from .schemas import Credentials, TokenOut, UserOut, VehicleCreate, VehicleDetails, VehicleOut, Restock, Price
@@ -8,6 +10,11 @@ from .vehicles import VehicleRepository
 
 def create_app(db_path: str, secret: str) -> FastAPI:
     app = FastAPI(title="Car Dealership API", version="1.0.0")
+    @app.exception_handler(DomainError)
+    async def domain_error_handler(request, error):
+        headers = {"WWW-Authenticate": "Bearer"} if error.status == 401 else None
+        return JSONResponse(status_code=error.status, content={"detail": error.message}, headers=headers)
+
     database = Database(db_path)
     auth = AuthService(database, secret)
     bearer = HTTPBearer(auto_error=False)

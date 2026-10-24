@@ -1,11 +1,11 @@
 """Vehicle persistence and inventory operations with atomic stock updates."""
 from decimal import Decimal
-from fastapi import HTTPException
+from .errors import DomainError
 
 
 def serialize(row):
     if row is None:
-        raise HTTPException(404, "Vehicle not found")
+        raise DomainError(404, "Vehicle not found")
     result = dict(row)
     result["price"] = f'{Decimal(result.pop("price_cents")) / 100:.2f}'
     return result
@@ -50,7 +50,7 @@ class VehicleRepository:
     def delete(self, vehicle_id):
         with self.database.connect() as db:
             if db.execute("DELETE FROM vehicles WHERE id=?", (vehicle_id,)).rowcount == 0:
-                raise HTTPException(404, "Vehicle not found")
+                raise DomainError(404, "Vehicle not found")
 
     def change_stock(self, vehicle_id, delta):
         with self.database.connect() as db:
@@ -61,6 +61,6 @@ class VehicleRepository:
             ).fetchone()
             if row is None:
                 if db.execute("SELECT id FROM vehicles WHERE id=?", (vehicle_id,)).fetchone() is None:
-                    raise HTTPException(404, "Vehicle not found")
-                raise HTTPException(409, "Out of stock" if delta < 0 else "Stock limit exceeded")
+                    raise DomainError(404, "Vehicle not found")
+                raise DomainError(409, "Out of stock" if delta < 0 else "Stock limit exceeded")
             return serialize(row)
