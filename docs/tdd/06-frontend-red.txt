@@ -1,0 +1,142 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> apex-motors@1.0.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /workspace/scratch/ea3c5f6df765/car-dealership/frontend
+
+ ❯ src/VehicleCard.test.tsx (5 tests | 4 failed) 145ms
+   ❯ VehicleCard (5)
+     × shows the vehicle and purchases it 30ms
+     × disables purchasing sold-out stock 91ms
+     × prevents double clicks while a purchase is pending 10ms
+     × offers edit, restock and delete to an administrator 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/VehicleCard.test.tsx > VehicleCard > shows the vehicle and purchases it
+TestingLibraryElementError: Unable to find an element with the text: Camry. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<article />[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/VehicleCard.test.tsx:11:19
+      9|   it('shows the vehicle and purchases it', () => {
+     10|     const p = props(); render(<VehicleCard {...p} />);
+     11|     expect(screen.getByText('Camry')).toBeInTheDocument();
+       |                   ^
+     12|     fireEvent.click(screen.getByRole('button', { name: /purchase/i }));
+     13|     expect(p.onPurchase).toHaveBeenCalledWith(vehicle);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/VehicleCard.test.tsx > VehicleCard > disables purchasing sold-out stock
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/out of stock/i`
+
+Here are the accessible roles:
+
+  article:
+
+  Name "":
+  [36m<article />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<article />[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/VehicleCard.test.tsx:17:19
+     15|   it('disables purchasing sold-out stock', () => {
+     16|     render(<VehicleCard {...props()} vehicle={{ ...vehicle, quantity: …
+     17|     expect(screen.getByRole('button', { name: /out of stock/i })).toBe…
+       |                   ^
+     18|   });
+     19|   it('prevents double clicks while a purchase is pending', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/VehicleCard.test.tsx > VehicleCard > prevents double clicks while a purchase is pending
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/processing/i`
+
+Here are the accessible roles:
+
+  article:
+
+  Name "":
+  [36m<article />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<article />[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/VehicleCard.test.tsx:21:19
+     19|   it('prevents double clicks while a purchase is pending', () => {
+     20|     render(<VehicleCard {...props()} busy />);
+     21|     expect(screen.getByRole('button', { name: /processing/i })).toBeDi…
+       |                   ^
+     22|   });
+     23|   it('hides administration from buyers', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/VehicleCard.test.tsx > VehicleCard > offers edit, restock and delete to an administrator
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/edit/i`
+
+Here are the accessible roles:
+
+  article:
+
+  Name "":
+  [36m<article />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<article />[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/VehicleCard.test.tsx:31:28
+     29|   it('offers edit, restock and delete to an administrator', () => {
+     30|     const p = props(); render(<VehicleCard {...p} admin />);
+     31|     fireEvent.click(screen.getByRole('button', { name: /edit/i }));
+       |                            ^
+     32|     fireEvent.click(screen.getByRole('button', { name: /restock/i }));
+     33|     fireEvent.click(screen.getByRole('button', { name: /delete/i }));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 1 passed (5)
+   Start at  17:54:27
+   Duration  925ms (environment 62%, tests 19%, setup 12%, transform 6%, import 1%)
+
