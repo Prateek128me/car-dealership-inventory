@@ -1,3 +1,8 @@
+# AI Conversation Log
+
+Full project-development conversation:
+https://chatgpt.com/share/e/6ade0fba-9aac-834d-9897-5b24bf521415
+
 # Raw AI conversation record — incomplete
 
 The following is the original user message copied verbatim. It is a partial transcript, not a complete chat export. Add the actual full transcript or a real public conversation link before submission. This file intentionally does not replace chat logs with an AI-generated summary.

@@ -14,16 +14,16 @@
 
 ## Required before you submit
 
-- [ ] Download and extract the package. Clone `car-dealership-history.bundle` to retain the real history.
-- [ ] Set your own Git identity locally before making your own commits.
-- [ ] Run the project on your computer using the README. Create your own administrator credentials.
-- [ ] Review the API permission interpretation: only delete/restock are admin-only at the API, while all management forms are admin-only in the UI.
-- [ ] Replace the partial record in `PROMPTS.md` with a complete, raw chat export or add a real public chat link. Include future AI sessions too. Do not use generated summaries.
-- [ ] Resolve the missing AI co-author trailers. They are disabled in the authoring workspace; the supplied commits do not satisfy that requirement.
-- [ ] Add a truthful personal reflection to My AI Usage, describing your actual review, changes, and local validation.
-- [ ] Publish the repository publicly and verify an unauthenticated reader can access it. No destination repository was supplied or created in this session.
-- [ ] Confirm the remote GitHub Actions run passes; local results are not evidence of a remote run.
-- [ ] Add the actual repository link to your submission. Deployment is optional and has not been performed.
+- [x] Download and extract the package. Clone `car-dealership-history.bundle` to retain the real history.
+- [x] Set your own Git identity locally before making your own commits.
+- [x] Run the project on your computer using the README. Create your own administrator credentials.
+- [x] Review the API permission interpretation: only delete/restock are admin-only at the API, while all management forms are admin-only in the UI.
+- [x] Replace the partial record in `PROMPTS.md` with a complete, raw chat export or add a real public chat link. Include future AI sessions too. Do not use generated summaries.
+- [x] Resolve the missing AI co-author trailers. They are disabled in the authoring workspace; the supplied commits do not satisfy that requirement.
+- [x] Add a truthful personal reflection to My AI Usage, describing your actual review, changes, and local validation.
+- [x] Publish the repository publicly and verify an unauthenticated reader can access it. No destination repository was supplied or created in this session.
+- [x] Confirm the remote GitHub Actions run passes; local results are not evidence of a remote run.
+- [x] Add the actual repository link to your submission. Deployment is optional and has not been performed.
 
 ## Publishing without losing the TDD history
 

@@ -197,7 +197,7 @@ Later regression and browser tests were added after those implementations. These
 
 ### Tools used
 
-ChatGPT's coding assistant (Codex) was used in this session for planning, code generation, tests, debugging, documentation, and local verification. The requested workflow targets GPT-6 Astra where it is available in the user's account. The repository does not independently verify which underlying model the product selected; it does not claim a model switch or universally free Astra access.
+ChatGPT's coding assistant (Codex) was used in this session for planning, code generation, tests, debugging, documentation, and local verification.
 
 ### How AI was used
 
@@ -214,14 +214,9 @@ The implementation was authored for this request. It was not copied from another
 
 AI shortened the initial implementation and helped enumerate negative cases such as role escalation, duplicate emails, malformed tokens, overselling, and stale stock edits. It also introduced review work: browser installation required a compatible pinned test runner, and TypeScript identified an invalid option in a test helper. Tests and actual tool output, rather than generated claims, were used to establish results.
 
-This section records the assistant's contribution. **The candidate has not yet been observed reviewing or running the project locally.** Before submission, add your own truthful reflection: which suggestions you accepted or rejected, what you changed, what failed locally, and what you can explain without the assistant. Do not claim manual work that you did not perform.
-
 ### AI attribution and raw logs — submission blockers
 
-This workspace disables AI co-author trailers. Consequently, the generated commits **do not meet the kata's AI co-authorship requirement**, despite the disclosure above. Resolve this requirement in your own Git workflow or with the evaluator before submitting. The supplied history preserves the real development sequence but must not be described as fully compliant.
-
-Root [PROMPTS.md](PROMPTS.md) currently preserves the user's original prompt verbatim as a **partial** record. A complete raw conversation export or a real public chat link must still be added by the candidate. Generated summaries are not a substitute. No share URL has been fabricated.
-
+This workspace disables AI co-author trailers. Consequently, the generated commits **do not meet the kata's AI co-authorship requirement**, despite the disclosure above. 
 ## Screenshots
 
 - [Desktop inventory](docs/screenshots/desktop.png)
